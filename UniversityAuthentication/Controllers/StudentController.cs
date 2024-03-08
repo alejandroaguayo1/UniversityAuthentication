@@ -63,6 +63,7 @@ namespace UniversityAuthentication.Controllers
             await _db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+        [HttpGet]
         public async Task<IActionResult> EnrollCourse()
         {
             var currentUserId = User.Identity.Name;
@@ -77,14 +78,61 @@ namespace UniversityAuthentication.Controllers
             vm.Student = studentToShow;
             return View(vm);
         }
-        [HttpPost]
-        public async Task<IActionResult> EnrollCourse(StudentAddEnrollmentViewModels vm)   
+        public async Task<IActionResult> EnrollCourse(StudentAddEnrollmentViewModels vm)
         {
-                var course = await _db.Courses.FirstOrDefaultAsync(i => i.CourseId == vm.Course.CourseId);
-                vm.Course = course;
-                _db.Add(vm.Course);
-                await _db.SaveChangesAsync();
-                return RedirectToAction("Index", "Student");
+            //Curso
+            Course? course = _db.Courses.
+                Where(c => c.CourseId == vm.Course.CourseId).
+                Include(c => c.Instructor).FirstOrDefault();
+
+            //Student
+            Student? student = _db.Students.
+                Where(s => s.StudentId == vm.Student.StudentId).FirstOrDefault();
+
+
+            //Comprobar si ya matriculado
+            Enrollment? yaMatriculado = _db.Enrollments.
+                Where(e => e.Student == student && e.Course == course).FirstOrDefault();
+            if (yaMatriculado != null)
+            {
+                //Mostrar una vista de ya matriculado
+            }
+            else
+            {
+                if (course.SeatCapacity > 0)
+                {
+                    Enrollment enrollment = new Enrollment();
+
+                    enrollment.Course = course;
+                    enrollment.Student = student;
+                    _db.Add(enrollment);
+
+                    //decrementamos el numero de plazas
+                    course.SeatCapacity--;
+                    await _db.SaveChangesAsync();
+                }
+                else
+                {
+                    //Mostrar un div con el numero de plazas
+                }
+            }
+            return RedirectToAction("Index");
+
+            //Comprobar si hay plazas, si hay matricular y descontar el numero
+
+            //Redireccionar al Index
+        }
+
+
+
+        private async Task<bool> Comprueba(int courseId, int studentId)
+        {
+            bool encontrado;
+            var enrollment = await _db.Enrollments.Where(e => e.Course.CourseId == courseId &&
+            e.Student.StudentId == studentId).FirstOrDefaultAsync();
+
+            encontrado = enrollment != null;
+            return encontrado;
         }
 
         public int DevuelveCapacidad(int dato)
