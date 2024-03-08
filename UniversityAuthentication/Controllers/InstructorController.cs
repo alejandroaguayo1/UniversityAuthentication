@@ -39,6 +39,7 @@ namespace UniversityAuthentication.Controllers
             var instructores = await _db.Instructors.ToListAsync();
             return View(instructores);
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult AddProfile()
         {
             return View();
@@ -50,6 +51,7 @@ namespace UniversityAuthentication.Controllers
             await _db.SaveChangesAsync();
             return RedirectToAction("AllProfiles");
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditProfile(int id)
         {
             var instructorToUpadate = await _db.Instructors.FirstOrDefaultAsync(i => i.InstructorId == id);            
