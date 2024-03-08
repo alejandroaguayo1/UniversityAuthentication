@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using UniversityAuthentication.Data;
 using UniversityAuthentication.Models;
 using UniversityAuthentication.ViewModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UniversityAuthentication.Controllers
 {
@@ -84,6 +85,19 @@ namespace UniversityAuthentication.Controllers
                 _db.Add(vm.Course);
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index", "Student");
+        }
+
+        public int DevuelveCapacidad(int dato)
+        {
+            Course? course = _db.Courses.Where(c=>c.CourseId == dato).FirstOrDefault();
+            if(course != null)
+            {
+                return course.SeatCapacity;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
     }

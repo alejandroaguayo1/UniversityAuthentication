@@ -2,3 +2,20 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+$(function () {
+    $("#cmbCursos").on("change", function () {
+        var valor = this.value;
+        $.ajax({
+            type: "GET",
+            url: '/Student/DevuelveCapacidad',
+            data: { dato: valor },
+            success: function (response) {
+                $("#txtCapacity").val(response)
+            },
+            error: function (response) {
+                alert(response);
+            }
+        })
+    })
+})

@@ -12,6 +12,19 @@
                     <label asp-for="Student.StudentName"></label>
                     <input asp-for="Student.StudentName" readonly="readonly" class="form-control"/>
                 </div>
+                <div class="form-group">
+                    <label asp-for="Course.CourseTitle"></label>
+                    <select asp-for="Course.CourseId" asp-items="@Model.CourseList" class="form-control" id="cmbCursos">
+                        <option></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Course.SeatCapacity"></label>
+                    <input asp-for="Course.SeatCapacity" readonly="readonly" class="form-control" id="txtCapacity"/>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-outline-info">Save and back to Student home</button>
+                </div>
             </form>
         </div>
     </div>
