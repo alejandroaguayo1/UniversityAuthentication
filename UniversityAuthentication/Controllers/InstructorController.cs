@@ -52,7 +52,15 @@ namespace UniversityAuthentication.Controllers
         }
         public async Task<IActionResult> EditProfile(int id)
         {
-            return View();
+            var instructorToUpadate = await _db.Instructors.FirstOrDefaultAsync(i => i.InstructorId == id);            
+            return View(instructorToUpadate);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(Instructor instructor)
+        {
+            _db.Update(instructor);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("AllProfiles");
         }
     }
 }
