@@ -1,0 +1,18 @@
+﻿@using UniversityAuthentication.ViewModels
+@model StudentAddEnrollmentViewModels 
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-7 offset-3">
+            <h2>Add Enrollment</h2>
+            <form asp-action="EnrollCourse" asp-controller="Student">
+                <input type="hidden" asp-for="Student.StudentId" />
+                <input type="hidden" asp-for="Student.StudentUser" />
+                <div class="form-group">
+                    <label asp-for="Student.StudentName"></label>
+                    <input asp-for="Student.StudentName" readonly="readonly" class="form-control"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
