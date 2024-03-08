@@ -32,5 +32,11 @@ namespace UniversityAuthentication.Controllers
 
             return View();
         }
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> AllProfiles()
+        {
+            var instructores = await _db.Instructors.ToListAsync();
+            return View(instructores);
+        }
     }
 }
