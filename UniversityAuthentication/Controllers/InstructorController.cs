@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UniversityAuthentication.Data;
+using UniversityAuthentication.Models;
 
 namespace UniversityAuthentication.Controllers
 {
@@ -39,6 +40,17 @@ namespace UniversityAuthentication.Controllers
             return View(instructores);
         }
         public ActionResult AddProfile()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddProfile(Instructor instructor)
+        {
+            _db.Add(instructor);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("AllProfiles");
+        }
+        public async Task<IActionResult> EditProfile(int id)
         {
             return View();
         }
