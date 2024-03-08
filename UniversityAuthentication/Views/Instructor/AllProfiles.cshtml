@@ -5,7 +5,7 @@
 }
 
 <h1>AllProfiles</h1>
-<p><a class="btn btn-success" asp-action="AddProfile">Add an Instructor</a></p>
+<p><a class="btn btn-success" asp-action="AddProfile">Add an profile</a></p>
 
 @if (Model.Count() < 1)
 {
@@ -18,8 +18,10 @@ else
         <thead class="thead-dark">
             <tr>
                 <th>ID</th>
-                <th>Name</th>
+                <th>Profile Name</th>
                 <th>Office Location</th>
+                <th>User Name</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +31,10 @@ else
                     <td>@instructor.InstructorId</td>
                     <td>@instructor.InstructorName</td>
                     <td>@instructor.OfficeLocation</td>
+                    <td>@instructor.InstructorUser</td>
+                    <td>
+                        <a class="btn btn-success" asp-controller="Instructor" asp-route-id="@instructor.InstructorId" asp-action="EditProfile">Edit</a>
+                    </td>
                 </tr>
             }
         </tbody>

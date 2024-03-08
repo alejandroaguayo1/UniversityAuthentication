@@ -38,5 +38,9 @@ namespace UniversityAuthentication.Controllers
             var instructores = await _db.Instructors.ToListAsync();
             return View(instructores);
         }
+        public ActionResult AddProfile()
+        {
+            return View();
+        }
     }
 }
