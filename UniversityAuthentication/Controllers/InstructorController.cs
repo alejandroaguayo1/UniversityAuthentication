@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using UniversityAuthentication.Data;
 using UniversityAuthentication.Models;
+using UniversityAuthentication.ViewModels;
 
 namespace UniversityAuthentication.Controllers
 {
@@ -63,6 +65,27 @@ namespace UniversityAuthentication.Controllers
             _db.Update(instructor);
             await _db.SaveChangesAsync();
             return RedirectToAction("AllProfiles");
+        }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddCourse()
+        {
+            var instructorDisplay = await _db.Instructors.Select(x => new
+            {
+                Id = x.InstructorId,
+                Value = x.InstructorName
+            }).ToListAsync();
+            InstructorAddCourseViewModel vm = new InstructorAddCourseViewModel();
+            vm.InstructorList = new SelectList(instructorDisplay, "Id", "Value");
+            return View(vm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddCourse(InstructorAddCourseViewModel vm)
+        {
+            var instructor = await _db.Instructors.FirstOrDefaultAsync(i => i.InstructorId == vm.Instructor.InstructorId);
+            vm.Course.Instructor = instructor;
+            _db.Add(vm.Course);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Index", "Instructor");
         }
     }
 }
