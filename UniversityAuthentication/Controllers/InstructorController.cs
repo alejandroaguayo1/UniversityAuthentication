@@ -98,8 +98,20 @@ namespace UniversityAuthentication.Controllers
             {
                 List<Course> listaCursosInstructor = await _db.Courses
                     .Where(c => c.Instructor.InstructorId == instructorToShow.InstructorId).ToListAsync();
+                var cursoDisplay = listaCursosInstructor.Select(x => new
+                {
+                    Id = x.CourseId,
+                    Value = x.CourseTitle
+                }).ToList();
+                InstructorGradeCourseViewModel vm = new InstructorGradeCourseViewModel();
+                vm.CourseList = new SelectList(cursoDisplay, "Id", "Value");
+                vm.Instructor = instructorToShow;
+                return View(vm);
             }
-            return RedirectToAction("Index");
+            else
+            {
+                return View();
+            }
         }
     }
 }
