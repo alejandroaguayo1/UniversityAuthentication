@@ -14,5 +14,11 @@ namespace UniversityAuthentication.Data
             : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder modelbuilder)
+        {
+            modelbuilder.Seed();
+            base.OnModelCreating(modelbuilder);
+        }
     }
 }
