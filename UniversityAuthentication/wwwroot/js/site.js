@@ -22,33 +22,31 @@ $(function () {
         var valor = this.value;
         $.ajax({
             type: "GET",
-            url: '/Instructor/DevuelveMatriculas',
+            url: "/Instructor/DevuelveMatriculas",
             data: { dato: valor },
             success: function (response) {
                 $("#tableStudent").empty();
-                $("#tableStudent").append("<tr><th>Student</th><th>Letter</th><th></th></tr>");
+                $("#tableStudent").append('<tr><th>Student</th><th>Letter</th><th></th></tr>');
                 for (var i = 0; i < response.length; i++) {
-                    $("#tableStudent").append('<tr><td>' + response[i].student.studentName + 
-                        '</td><td class="text-right"><input type="text" id="txtGrade" value="' +
-                        String.fromCharCode(response[i].letterGrade) + '"/>' +
-                        '</td><td><input type="button" id="btnCalificar" value="Post Grade" class="btn btn-success" onclick="calificar(' + response.student.studentId + ')"/>'
-                        + '</td></tr>')
+                    $('#tableStudent').append('<tr><td>' + response[i].student.studentName
+                        + '</td><td class="text-right"><input type="text" id="txtGrade" value="' + String.fromCharCode(response[i].letterGrade) + '"/>'
+                        + '</td><td><input type="button" id="btnCalificar" value="Post Grade" class="btn btn-success" onclick="calificar(' + response[i].student.studentId + ')"/>'
+                        + '</td></tr>');
                 }
-            },
-            error: function (response) {
-                alert(response);
+
             }
-        })
+        });
     })
-    function calificar(studentId) {
-        var grade = $("#txtGrade").val();
-        $.ajax({
-            type: "GET",
-            url: '/Instructor/Calificar',
-            data: { dato: studentId, nota: grade },
-            success: function (response) {
-                alert('Post Grade....');
-            }
-        })
-    }
 })
+    
+function calificar(studentId) {
+    var grade = $(".txtGrade").val();
+    $.ajax({
+        type: "GET",
+        url: '/Instructor/Califica',
+        data: { dato: studentId, nota: grade },
+        success: function (response) {
+            alert('Post Grade....');
+        }
+    });
+}
