@@ -123,5 +123,17 @@ namespace UniversityAuthentication.Controllers
 
             return Matriculados;
         }
+        public async Task<IActionResult> Califica(int dato, char nota)
+        {
+            Enrollment enrollment = await _db.Enrollments.Where(e => e.Student.StudentId == dato).FirstOrDefaultAsync();
+
+            if(enrollment != null)
+            {
+                enrollment.LetterGrade = (LetterGrade)nota;
+                _db.Update(enrollment);
+                await _db.SaveChangesAsync();
+            }
+            return RedirectToAction("Index", "Instructor");
+        }
     }
 }

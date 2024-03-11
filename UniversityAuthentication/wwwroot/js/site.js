@@ -40,4 +40,15 @@ $(function () {
             }
         })
     })
+    function calificar(studentId) {
+        var grade = $("#txtGrade").val();
+        $.ajax({
+            type: "GET",
+            url: '/Instructor/Calificar',
+            data: { dato: studentId, nota: grade },
+            success: function (response) {
+                alert('Post Grade....');
+            }
+        })
+    }
 })
