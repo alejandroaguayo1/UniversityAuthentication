@@ -113,5 +113,15 @@ namespace UniversityAuthentication.Controllers
                 return View();
             }
         }
+
+
+
+        public async Task<List<Enrollment>> DevuelveMatriculas(int dato)
+        {
+
+            List<Enrollment> Matriculados = await _db.Enrollments.Include(e => e.Student).Where(e => e.Course.CourseId == dato).ToListAsync();
+
+            return Matriculados;
+        }
     }
 }
